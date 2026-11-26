@@ -4,7 +4,7 @@ Aula Dining is a phone-first web app that runs the dining hall of Aula North, a 
 covers the daily meals and menus, special meals ("improvements" and feasts) served in batches with seat
 booking, coupon collection, attendance, notices and anonymous feedback.
 
-**Live demo: [tj-paul.github.io/Aula-north-dining-management](https://tj-paul.github.io/Aula-north-dining-management/)**
+**Live demo: [tj-paul.github.io/Aula-north-dining-management](https://tj-paul.github.io/Aula-north-dining-management/login)**
 
 This is not a class project or a mock-up. Aula Dining is an active system that the residents of Aula North use
 regularly for their meals, and that the mess managers use to run the dining hall. This repository is a public
