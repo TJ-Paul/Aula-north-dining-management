@@ -36,7 +36,7 @@ export default function MessPage() {
   const others = data ? data.months.filter((x) => x.id !== m?.id).length : 0;
 
   return (
-    <AppFrame session={session} active="mess">
+    <AppFrame session={session} active="mess" width="feed">
       <NominationCard onDone={reload} />
       {!data ? <SkeletonList count={3} /> : !m ? (
         <Panel title="No mess month yet">
@@ -52,8 +52,10 @@ export default function MessPage() {
       )}
       {data && m && (
         <>
-          <MonthHero month={m} onChanged={reload} />
-          <MonthTiles month={m} />
+          <div className="grid gap-4 lg:grid-cols-2">
+            <MonthHero month={m} onChanged={reload} />
+            <MonthTiles month={m} />
+          </div>
           <Managers managers={m.managers} />
           {others > 0 && (
             <Link href="/mess/months" className="card flex items-center gap-3 transition hover:bg-subtle active:scale-[0.99]">

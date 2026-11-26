@@ -23,7 +23,7 @@ export default function StartPage() {
   };
 
   return (
-    <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-5 px-4 py-8">
+    <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-5 px-4 py-8 sm:max-w-xl">
       <div className="flex items-center gap-3">
         <span className="flex size-12 items-center justify-center rounded-2xl bg-accent text-accent-fg"><Utensils size={24} /></span>
         <div>
@@ -40,13 +40,9 @@ export default function StartPage() {
 
       {error && <p className="text-sm text-bad" role="alert">The demo could not start: {error}</p>}
 
-      <div className="grid gap-3">
-        <Choice disabled={!accounts} onClick={() => accounts && go(accounts.student.id, 'STUDENT')}
-          icon={Ticket} title="Explore as a student" who={accounts?.student.name}
-          text="See today’s meals and menus, book a seat for a special meal, choose chicken instead of mutton, your meal history, roommates, notices and feedback." />
-        <Choice disabled={!accounts} onClick={() => accounts && go(accounts.manager.id, 'ADMIN')}
-          icon={ClipboardCheck} title="Explore as a mess manager" who={accounts?.manager.name}
-          text="Create meals and menus, run a feast batch by batch (Filled → Start taking bookings → Gate open), take coupons, tick who ate, read feedback and post notices." />
+      <div className="grid gap-3 sm:grid-cols-2">
+        <Choice disabled={!accounts} onClick={() => accounts && go(accounts.student.id, 'STUDENT')} icon={Ticket} title="Explore as a student" />
+        <Choice disabled={!accounts} onClick={() => accounts && go(accounts.manager.id, 'ADMIN')} icon={ClipboardCheck} title="Explore as a mess manager" />
       </div>
 
       <p className="flex items-start gap-2 text-xs text-muted">
@@ -58,18 +54,15 @@ export default function StartPage() {
   );
 }
 
-function Choice({ icon: Icon, title, who, text, onClick, disabled }: {
-  icon: typeof Ticket; title: string; who?: string; text: string; onClick: () => void; disabled: boolean;
+function Choice({ icon: Icon, title, onClick, disabled }: {
+  icon: typeof Ticket; title: string; onClick: () => void; disabled: boolean;
 }) {
   return (
     <button onClick={onClick} disabled={disabled}
-      className="card flex items-start gap-3 text-left transition hover:bg-subtle active:scale-[0.99] disabled:opacity-60">
+      className="card flex items-center gap-3 text-left transition hover:bg-subtle active:scale-[0.99] disabled:opacity-60">
       <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent/15 text-accent"><Icon size={20} /></span>
-      <span className="grid flex-1 gap-1">
-        <span className="flex items-center justify-between gap-2 font-semibold">{title} <ArrowRight size={16} className="text-muted" /></span>
-        <span className="text-xs text-muted">{who ? `Signed in as ${who}` : 'Loading…'}</span>
-        <span className="text-sm text-muted">{text}</span>
-      </span>
+      <span className="flex-1 font-semibold">{title}</span>
+      <ArrowRight size={16} className="shrink-0 text-muted" />
     </button>
   );
 }

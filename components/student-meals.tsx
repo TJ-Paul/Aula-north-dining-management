@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { DayCard, MealCard, groupDays, mergeable, type MealBrief } from '@/components/meal-card';
 import { type Seating } from '@/components/meal-booking';
 import { dhakaToday } from '@/lib/format';
+import { Masonry } from '@/components/masonry';
 
 const dhakaDay = (iso: string) => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Dhaka' }).format(new Date(iso));
 
@@ -37,12 +38,12 @@ export function StudentMeals({ board, seating, preview }: {
         </div>
       </header>
       {todays.length > 0 ? (
-        <div className="grid items-start gap-3 lg:grid-cols-2">
+        <Masonry className="grid items-start gap-3">
           {/* A day's lunch and dinner share one card (dinner first); a special meal keeps its own (it has the booking). */}
           {groupDays(todays, mergeable).map((g) => g.length > 1
             ? <DayCard key={g[0].id} meals={g} when="upcoming" />
             : <MealCard key={g[0].id} meal={g[0]} seating={seating?.[g[0].id]} when="today" highlight hideKind preview={preview} />)}
-        </div>
+        </Masonry>
       ) : (
         <p className="card text-center text-sm text-muted">No meals today.</p>
       )}
@@ -50,9 +51,9 @@ export function StudentMeals({ board, seating, preview }: {
       {upcoming.length > 0 && (
         <>
           <Divider label="Coming up" icon={<CalendarClock size={14} aria-hidden />} />
-          <div className="grid items-start gap-3 lg:grid-cols-2">
+          <Masonry className="grid items-start gap-3">
             {groupDays(upcoming, mergeable).map((g) => g.length > 1 ? <DayCard key={g[0].id} meals={g} when="upcoming" /> : <MealCard key={g[0].id} meal={g[0]} when="upcoming" hideKind preview={preview} />)}
-          </div>
+          </Masonry>
         </>
       )}
 
@@ -66,9 +67,9 @@ export function StudentMeals({ board, seating, preview }: {
               Hide <ChevronUp size={14} aria-hidden />
             </button>
           </div>
-          <div className="grid items-start gap-3 lg:grid-cols-2">
+          <Masonry className="grid items-start gap-3">
             {groupDays(past, undefined, { specials: true }).map((g) => g.length > 1 ? <DayCard key={g[0].id} meals={g} when="past" /> : <MealCard key={g[0].id} meal={g[0]} when="past" hideKind preview={preview} />)}
-          </div>
+          </Masonry>
         </>
       ) : (
         <button type="button" onClick={() => setShowPast(true)}

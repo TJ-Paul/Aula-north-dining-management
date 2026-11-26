@@ -11,6 +11,7 @@ import { AppFrame } from '@/components/top-bar';
 import { rpc } from '@/lib/rpc';
 import { useSession } from '@/lib/session';
 import { useLoad } from '@/lib/use-load';
+import { Masonry } from '@/components/masonry';
 
 type MonthMeal = {
   id: string; name: string | null; meal_type: string; occasion: string; state: string;
@@ -37,7 +38,7 @@ function MonthMealsPage() {
   const done = (data ?? []).filter((m) => new Date(m.service_start_at).getTime() <= now);
 
   return (
-    <AppFrame session={session} active="mess">
+    <AppFrame session={session} active="mess" width="feed">
       <Link href="/mess" className="flex w-fit items-center gap-1 text-sm text-muted hover:text-fg"><ArrowLeft size={14} /> Mess</Link>
       <h1 className="flex items-center gap-3 text-2xl font-semibold tracking-tight">
         <span className={`flex size-10 items-center justify-center rounded-2xl ${tile.tone}`}><tile.Icon size={20} aria-hidden /></span>
@@ -65,7 +66,7 @@ function Section({ title, icon, list, future, tile }: { title: string; icon: Rea
           <span className="h-px flex-1 bg-border" />
         </div>
       )}
-      <div className="grid items-start gap-3 lg:grid-cols-2">
+      <Masonry className="grid items-start gap-3">
         {(tile.kind === 'meals' ? groupDays(list, undefined, { specials: true }) : list.map((m) => [m])).map((g) => g.length > 1 ? (
           <DayCard key={g[0].id} when={future ? 'upcoming' : 'past'} meals={g.map((e) => ({ ...e, special: false }))}
             ate={(m) => (!future ? m.ate : undefined)} />
@@ -75,7 +76,7 @@ function Section({ title, icon, list, future, tile }: { title: string; icon: Rea
             hideKind={tile.kind !== 'meals'}
             ate={!future && e.state !== 'CANCELLED' ? e.ate : undefined} />
         )))}
-      </div>
+      </Masonry>
     </section>
   );
 }

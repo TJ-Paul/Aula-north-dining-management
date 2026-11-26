@@ -26,12 +26,14 @@ function MonthPage() {
   if (!session) return <PageSkeleton />;
   const m = data?.month;
   return (
-    <AppFrame session={session} active="mess">
+    <AppFrame session={session} active="mess" width="feed">
       <Link href="/mess/months" className="flex w-fit items-center gap-1 text-sm text-muted hover:text-fg"><ArrowLeft size={14} /> Mess months</Link>
       {!m ? (error ? <p className="text-sm text-bad">{error}</p> : <SkeletonList count={3} />) : (
         <>
-          <MonthHero month={m} onChanged={reload} />
-          <MonthTiles month={m} />
+          <div className="grid gap-4 lg:grid-cols-2">
+            <MonthHero month={m} onChanged={reload} />
+            <MonthTiles month={m} />
+          </div>
           <Managers managers={m.managers} />
         </>
       )}

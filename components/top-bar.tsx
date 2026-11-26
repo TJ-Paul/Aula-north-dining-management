@@ -50,7 +50,7 @@ let started = false;
  * screens, notifications, profile) and, on phones, a bottom tab bar.
  */
 export function AppFrame({ session, active, width = 'narrow', children }: {
-  session: Session; active?: Active; width?: 'narrow' | 'wide'; children: ReactNode;
+  session: Session; active?: Active; width?: 'narrow' | 'wide' | 'feed'; children: ReactNode;
 }) {
   useEffect(() => {
     if (started) return;
@@ -111,7 +111,7 @@ export function AppFrame({ session, active, width = 'narrow', children }: {
         )}
       </header>
 
-      <main className={`mx-auto grid w-full grid-cols-[minmax(0,1fr)] gap-4 px-4 pb-32 pt-4 md:pb-12 md:pt-6 ${width === 'wide' ? 'max-w-6xl' : 'max-w-3xl'}`}>
+      <main className={`mx-auto grid w-full grid-cols-[minmax(0,1fr)] gap-4 px-4 pb-32 pt-4 md:pb-12 md:pt-6 ${width === 'wide' ? 'max-w-6xl' : width === 'feed' ? 'max-w-3xl lg:max-w-6xl' : 'max-w-3xl'}`}>
         {children}
       </main>
 

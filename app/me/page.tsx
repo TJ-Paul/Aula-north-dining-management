@@ -95,7 +95,7 @@ export default function MealsPage() {
   }
 
   return (
-    <AppFrame session={session} active="me">
+    <AppFrame session={session} active="me" width="feed">
       <AppSetup compact />
       <NominationCard onDone={loadHome} />
       {(!session.coupon_number || session.update_requested_at || session.pending_claim) && (

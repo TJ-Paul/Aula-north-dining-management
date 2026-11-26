@@ -63,7 +63,7 @@ export function MonthHero({ month: m, onChanged }: { month: MonthRef & { can_edi
   const pic = m.banner_url;
   const startsIn = Math.ceil((new Date(`${m.starts_on}T00:00:00+06:00`).getTime() - Date.now()) / 86400000);
   return (
-    <section className={`relative aspect-video overflow-hidden rounded-3xl border border-border ${pic ? 'bg-black text-white' : 'bg-gradient-to-br from-accent/25 via-surface to-surface'}`}>
+    <section className={`relative aspect-video overflow-hidden rounded-3xl border border-border lg:aspect-auto lg:h-full lg:min-h-64 ${pic ? 'bg-black text-white' : 'bg-gradient-to-br from-accent/25 via-surface to-surface'}`}>
       {pic ? (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -204,7 +204,7 @@ function MonthEditor({ month: m, onClose, onChanged }: { month: MonthRef; onClos
 export function MonthTiles({ month: m }: { month: Month }) {
   const [all, ...kinds] = TILES;
   return (
-    <section className="grid grid-cols-3 gap-2.5 sm:gap-3">
+    <section className="grid grid-cols-3 gap-2.5 sm:gap-3 lg:auto-rows-fr">
       <Link href={`/mess/month/meals/?month=${m.id}&kind=${all.kind}`} style={tint(all.tint)}
         className={`${TILE} col-span-2 flex items-center gap-3 !px-4`}>
         <span className="min-w-0 flex-1 pl-1">

@@ -11,6 +11,7 @@ import { SkeletonList } from '@/components/skeleton';
 import { dhakaDate, dhakaToday, timeRange } from '@/lib/format';
 import { rpc } from '@/lib/rpc';
 import { useLoad } from '@/lib/use-load';
+import { Masonry } from '@/components/masonry';
 
 type Aisle = { aisle: 'A' | 'B'; readiness: string; display_state: string; meal_service_id: string | null; wave_number: number | null };
 type Policy = { version: number; note: string | null; is_active: boolean; settings: Record<string, number> };
@@ -76,7 +77,7 @@ function Meals() {
 
       <h2 className="mt-2 px-1 text-xs font-semibold uppercase tracking-wider text-muted">Tap a meal to edit or delete it</h2>
       {data.meals.length === 0 ? <Empty>No meals yet.</Empty> : (
-          <div className="grid items-start gap-3 lg:grid-cols-2">
+          <Masonry className="grid items-start gap-3">
             {groupDays(data.meals.map((m) => ({ ...m, menu: menuOf(m) })), undefined, { specials: true }).map((g) => {
               const todayDhaka = dhakaToday();
               const started = (m: Meal) => new Date(m.service_start_at).getTime() <= Date.now();
@@ -152,7 +153,7 @@ function Meals() {
                 </div>
               );
             })}
-          </div>
+          </Masonry>
       )}
     </>
   );
