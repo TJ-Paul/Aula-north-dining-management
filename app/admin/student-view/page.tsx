@@ -21,7 +21,7 @@ export default function StudentViewPage() {
 function StudentView() {
   const { data, error } = useLoad(() => mealsLive<{ meals: MealBrief[] }>(), 2 * 60000, { cache: 'student-view' });
   return (
-    <div className="mx-auto grid w-full max-w-xl grid-cols-[minmax(0,1fr)] content-start gap-4">
+    <div className="mx-auto grid w-full max-w-xl grid-cols-[minmax(0,1fr)] content-start gap-4 lg:max-w-none">
       <div className="flex items-center justify-between gap-3">
         <Link href="/admin" className="flex items-center gap-1 text-sm text-muted hover:text-fg"><ArrowLeft size={14} /> Dashboard</Link>
         <span className="flex items-center gap-1.5 rounded-full bg-accent-soft px-3 py-1 text-xs font-semibold text-accent">

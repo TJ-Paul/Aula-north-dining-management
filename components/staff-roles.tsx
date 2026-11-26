@@ -83,9 +83,8 @@ export function StaffAndRoles({ session }: { session: Session }) {
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div>
                     <div className="font-medium">{p.name || 'Unnamed'}</div>
-                    <div className="text-sm text-muted">
-                      {p.coupon_number ? `Coupon ${p.coupon_number}` : 'No verified coupon'}{p.phone && ` · +${p.phone}`}
-                    </div>
+                    {/* The demo shows no phone numbers, and no coupon for the hall's staff. */}
+                    {p.coupon_number && <div className="text-sm text-muted">Coupon {p.coupon_number}</div>}
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge tone={p.role === 'STUDENT' || p.role === 'VIEWER' ? 'info' : 'ok'}>{LABEL[p.role]}</Badge>

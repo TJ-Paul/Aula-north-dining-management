@@ -34,7 +34,10 @@ export type Session = {
 /** A viewer is shown every screen a super admin sees; the database still refuses any change they try. */
 function asSeen(s: Session | null): Session | null {
   setViewOnly(s?.role === 'VIEWER');
-  return s?.role === 'VIEWER' ? { ...s, role: 'SUPER_ADMIN', view_only: true } : s;
+  if (s?.role === 'VIEWER') return { ...s, role: 'SUPER_ADMIN', view_only: true };
+  // The demo's mess manager account is the Dev's (so the staff list shows Turjjo as Dev), but visitors
+  // see and use it as a mess manager: no Dev screens.
+  return s?.role === 'SUPER_ADMIN' ? { ...s, role: 'ADMIN' } : s;
 }
 
 export const isStaff = (s: Session | null) => !!s && s.role !== 'STUDENT';

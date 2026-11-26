@@ -256,7 +256,7 @@ export function Managers({ managers }: { managers: Manager[] }) {
                   {g.status !== 'ACTIVE' && <Badge>Retired</Badge>}
                 </div>
                 <div className="mt-1 flex items-center gap-1.5 truncate text-xs text-muted">
-                  <span className="rounded-md bg-subtle px-1.5 py-0.5 font-semibold tabular-nums text-fg/80">Coupon {g.coupon_number ?? '—'}</span>
+                  {g.coupon_number != null && <span className="rounded-md bg-subtle px-1.5 py-0.5 font-semibold tabular-nums text-fg/80">Coupon {g.coupon_number}</span>}
                   {g.room && <span>Room {g.room}</span>}
                 </div>
               </div>

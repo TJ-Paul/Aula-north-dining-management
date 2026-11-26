@@ -192,6 +192,31 @@ export function MealCard({ meal, seating, when, aside, ate, hideKind, children, 
   );
 }
 
+/**
+ * What a meal in a merged day card still needs on the students' Meals tab: its notice, "Choose your dish"
+ * and, for a paron, "I'm coming". Nothing for a meal that has none of them.
+ */
+export function MealExtras({ meal, preview }: { meal: MealBrief; preview?: boolean }) {
+  const started = new Date(meal.service_start_at).getTime() <= Date.now();
+  const canChoose = !preview && !started && (meal.menu ?? []).some((x) => / \(or /.test(x))
+    && (!meal.choices_close_at || new Date(meal.choices_close_at).getTime() > Date.now());
+  const paron = mealKind(meal) === 'PARON' && !started;
+  if (!meal.notice && !canChoose && !paron) return null;
+  return (
+    <div className="grid gap-2">
+      {meal.notice && (
+        <p className="flex gap-2 rounded-xl bg-warn-soft px-3 py-2 text-sm text-warn"><Megaphone size={16} className="mt-0.5 shrink-0" />{meal.notice}</p>
+      )}
+      {canChoose && (
+        <Link href={`/events/view/?id=${meal.id}`} className="flex w-fit items-center gap-1 text-sm font-medium text-accent">
+          Choose your dish <ChevronRight size={15} />
+        </Link>
+      )}
+      {paron && <Coming mealId={meal.id} open={!preview && meal.state === 'SCHEDULED'} />}
+    </div>
+  );
+}
+
 /** A small count beside a lunch's or dinner's name (improvements and feasts get the big tile instead). */
 function CountChip({ n }: { n: number }) {
   return <span className="rounded-lg bg-subtle px-2 py-0.5 text-sm font-bold tabular-nums text-fg" aria-label={`${n} ate`}>{n}</span>;

@@ -114,10 +114,7 @@ function IdCard({ session: s, roommates }: { session: Session; roommates: Linked
               </div>
             ))}
           </div>
-          <div className="flex items-baseline justify-between gap-3 px-1">
-            <dt className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted">Phone</dt>
-            <dd className="truncate text-sm font-semibold tabular-nums">{s.phone || <span className="font-normal text-muted">—</span>}</dd>
-          </div>
+          {/* The demo shows nobody's phone number. */}
         </dl>
         {s.coupon_number !== null && roommates.length > 0 && (
           <div>

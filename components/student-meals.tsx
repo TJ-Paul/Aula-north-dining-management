@@ -2,7 +2,7 @@
 
 import { CalendarClock, ChevronDown, ChevronUp, History } from 'lucide-react';
 import { useState } from 'react';
-import { DayCard, MealCard, groupDays, mergeable, type MealBrief } from '@/components/meal-card';
+import { DayCard, MealCard, MealExtras, groupDays, mergeable, type MealBrief } from '@/components/meal-card';
 import { type Seating } from '@/components/meal-booking';
 import { dhakaToday } from '@/lib/format';
 import { Masonry } from '@/components/masonry';
@@ -52,7 +52,10 @@ export function StudentMeals({ board, seating, preview }: {
         <>
           <Divider label="Coming up" icon={<CalendarClock size={14} aria-hidden />} />
           <Masonry className="grid items-start gap-3">
-            {groupDays(upcoming, mergeable).map((g) => g.length > 1 ? <DayCard key={g[0].id} meals={g} when="upcoming" /> : <MealCard key={g[0].id} meal={g[0]} when="upcoming" hideKind preview={preview} />)}
+            {/* One card per day: lunch, dinner and any special meal together, each with its own buttons under it. */}
+            {groupDays(upcoming, undefined, { specials: true }).map((g) => g.length > 1
+              ? <DayCard key={g[0].id} meals={g} when="upcoming" extra={(m) => <MealExtras meal={m} preview={preview} />} />
+              : <MealCard key={g[0].id} meal={g[0]} when="upcoming" hideKind preview={preview} />)}
           </Masonry>
         </>
       )}
