@@ -10,7 +10,7 @@ This is not a class project or a mock-up. Aula Dining is an active system that t
 regularly for their meals, and that the mess managers use to run the dining hall. This repository is a public
 copy of it with made-up data, so anyone can try every feature.
 
-## The problem it solves
+## The problem it solves:
 
 The dining hall seats about 50 people, but a hall full of students wants to eat at the same time, especially
 on special meal nights. Before this app, everyone rushed the gate at once on feast nights. Whoever pushed
