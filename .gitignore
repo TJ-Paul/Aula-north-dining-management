@@ -1,0 +1,9 @@
+node_modules/
+.next/
+out/
+.pages-test/
+public/pglite/
+*.tsbuildinfo
+.env*
+.DS_Store
+coverage/

@@ -1,0 +1,471 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Colours ("Electric Cyan"): a blue-black or cool near-white base, slate grey for secondary text, and
+   one cyan for the main action, with an ambient cyan glow behind the page. No orange, yellow or violet:
+   ok (green) / warn (light blue) / bad (red) for outcomes; orange for improvements ("gold" in the
+   code: special, so warm); a cyan-to-deep-blue gradient for feasts.
+   Every text colour passes WCAG AA (4.5:1) on the surfaces it sits on, in both themes.
+   --------------------------------------------------------------------------- */
+:root {
+  --bg: #f3f6f8;
+  --surface: #ffffff;
+  --subtle: #ebf0f3;
+  --border: #c5d0d7;
+  --fg: #0a1014;
+  --muted: #55636d;
+  --ok: #1d7a45;
+  --ok-soft: #e3f3e8;
+  --warn: #1d4ed8;
+  --warn-soft: #e4ecfe;
+  --bad: #c0233f;
+  --bad-soft: #fbe4e7;
+  /* Deep cyan: the bright one is too faint as text on white. */
+  --accent: #0e7490;
+  --accent-soft: #dff4f8;
+  --accent-fg: #ffffff;
+  /* The bright cyan, only for glows and decoration (never for text). */
+  --glow: #06b6d4;
+  --gold: #b8400b;
+  --gold-soft: #ffedd5;
+  /* Light comes from the top-left: every shadow falls to the bottom-right. */
+  --lift: inset 0 1px 0 #fff, 1px 1px 2px rgb(10 16 20 / 0.06), 4px 6px 14px -6px rgb(10 16 20 / 0.12), 12px 20px 40px -18px rgb(10 16 20 / 0.30);
+  --sx: 8px;
+  --sheen: none;
+  /* Light-mode-only soft shadows (dark mode sets them to nothing). */
+  --soft-sm: 1px 1px 2px rgb(10 16 20 / 0.08), 2px 3px 6px -2px rgb(10 16 20 / 0.10);
+  --soft: 1px 1px 2px rgb(10 16 20 / 0.07), 4px 7px 16px -6px rgb(10 16 20 / 0.22);
+  --soft-bar: 0 6px 16px -12px rgb(10 16 20 / 0.28);
+  --ambient: 11%;
+  color-scheme: light;
+}
+
+/* Dark: blue-black, white ink, bright cyan with dark text on it. Follows the device
+   unless the switch picked a theme. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #070c0e;
+    --surface: #111a1e;
+    --subtle: #1a252a;
+    --border: #26343a;
+    --fg: #eef4f6;
+    --muted: #94a3b8;
+    --ok: #4ade80;
+    --ok-soft: #0f2a1a;
+    --warn: #93c5fd;
+    --warn-soft: #13213a;
+    --bad: #ff5c6c;
+    --bad-soft: #2e1014;
+    --accent: #22d3ee;
+    --accent-soft: #0f2933;
+    --accent-fg: #04161b;
+    --glow: #06b6d4;
+    --gold: #fb923c;
+    --gold-soft: #2b1708;
+    --lift: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 2px 4px rgb(0 0 0 / 0.5), 0 16px 34px -12px rgb(0 0 0 / 0.85);
+    --sheen: linear-gradient(180deg, rgb(255 255 255 / 0.03), transparent 55%);
+    --ambient: 22%;
+    --soft-sm: 0 0 #0000;
+    --soft: 0 0 #0000;
+    --soft-bar: 0 0 #0000;
+    --sx: 0px;
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --bg: #070c0e;
+  --surface: #111a1e;
+  --subtle: #1a252a;
+  --border: #26343a;
+  --fg: #eef4f6;
+  --muted: #94a3b8;
+  --ok: #4ade80;
+  --ok-soft: #0f2a1a;
+  --warn: #93c5fd;
+  --warn-soft: #13213a;
+  --bad: #ff5c6c;
+  --bad-soft: #2e1014;
+  --accent: #22d3ee;
+  --accent-soft: #0f2933;
+  --accent-fg: #04161b;
+  --glow: #06b6d4;
+  --gold: #fb923c;
+  --gold-soft: #2b1708;
+  --lift: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 2px 4px rgb(0 0 0 / 0.5), 0 16px 34px -12px rgb(0 0 0 / 0.85);
+  --sheen: linear-gradient(180deg, rgb(255 255 255 / 0.03), transparent 55%);
+  --ambient: 22%;
+  --soft-sm: 0 0 #0000;
+  --soft: 0 0 #0000;
+  --soft-bar: 0 0 #0000;
+  --sx: 0px;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-subtle: var(--subtle);
+  --color-border: var(--border);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-fg: var(--accent-fg);
+  --color-glow: var(--glow);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+:root {
+  --display: var(--font-bricolage), var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ---------------------------------------------------------------------------
+   Phones. Text never gets "boosted" by the browser, nothing can push the page sideways (which makes
+   some phones zoom out or open zoomed in), and tiny or zoomed-display screens get a slightly smaller
+   base size so every row still fits.
+   --------------------------------------------------------------------------- */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+/* Smaller or zoomed screens get slightly smaller text and buttons, in small steps: full size from 375px wide
+   (every current iPhone), easing to 87.5% at 320px. Everything is sized in rem, so it all scales together.
+   Percentages keep the phone's own text-size setting: someone who chose large text still gets it larger. */
+/* --ui-scale is each person's own choice (Profile → gear → Text size), saved on their phone. */
+html { --fit: 100%; font-size: calc(var(--fit) * var(--ui-scale, 1)); }
+@media (max-width: 374px) { html { --fit: 96.5%; } }
+@media (max-width: 359px) { html { --fit: 93%; } }
+@media (max-width: 344px) { html { --fit: 90%; } }
+@media (max-width: 329px) { html { --fit: 87.5%; } }
+
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-sans);
+  overflow-x: clip;
+  position: relative;
+}
+
+/* A soft coral glow behind the top of every page. Painted once, scrolls away with the page. */
+body::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 26rem;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(70% 100% at 50% 0%, color-mix(in srgb, var(--glow) var(--ambient), transparent), transparent 72%);
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--display);
+  letter-spacing: -0.018em;
+  font-optical-sizing: auto;
+}
+h1 {
+  letter-spacing: -0.03em;
+}
+
+/* Form fields at 16px: iPhones zoom the whole page into any smaller field when it is tapped. */
+@layer base {
+  input:not([type='checkbox']):not([type='radio']):not([type='range']),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+/* Fields styled smaller still get 16px (bigger ones, like the coupon pad, keep their size). */
+:is(input, select, textarea):is(.text-xs, .text-sm) {
+  font-size: 16px;
+}
+
+/* Light mode only: the Dashboard's two big buttons float like the cards (light from the top-left). */
+:root[data-theme='light'] .big-btn {
+  box-shadow: var(--lift);
+}
+:root[data-theme='light'] .big-btn-primary {
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.2), 4px 6px 14px -6px rgb(10 16 20 / 0.18), 12px 20px 40px -18px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) .big-btn {
+    box-shadow: var(--lift);
+  }
+  :root:not([data-theme='dark']) .big-btn-primary {
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.2), 4px 6px 14px -6px rgb(10 16 20 / 0.18), 12px 20px 40px -18px color-mix(in srgb, var(--accent) 60%, transparent);
+  }
+}
+
+/* Light mode only: placeholders a clearly lighter grey than real text, so an empty box never looks filled in. */
+:root[data-theme='light'] ::placeholder {
+  color: #8d99a1;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) ::placeholder {
+    color: #8d99a1;
+  }
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+@layer components {
+  .input {
+    width: 100%;
+    min-height: 3rem;
+    border-radius: 0.9rem;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--fg);
+    padding: 0 0.85rem;
+    box-shadow: var(--soft-sm);
+    transition: border-color 150ms, box-shadow 150ms;
+  }
+  .input::placeholder {
+    color: color-mix(in srgb, var(--muted) 80%, transparent);
+  }
+  textarea.input {
+    padding: 0.6rem 0.85rem;
+  }
+  .input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+  .card {
+    border-radius: 1.4rem;
+    border: 1px solid var(--border);
+    background: var(--sheen), var(--surface);
+    padding: 1rem;
+    box-shadow: var(--lift);
+  }
+  /* A tile in one colour (set --tint): its outline, a soft shade from the top corner, and a glow beneath. */
+  .tile-wash {
+    border-color: color-mix(in srgb, var(--tint) 45%, var(--border));
+    background:
+      linear-gradient(155deg, color-mix(in srgb, var(--tint) 14%, transparent), transparent 60%),
+      var(--sheen),
+      var(--surface);
+    box-shadow: var(--lift), var(--sx) 14px 30px -18px color-mix(in srgb, var(--tint) 70%, transparent);
+  }
+  /* Feasts are rare, big events: a jewel-toned gradient edge and a soft glow. */
+  .feast-card {
+    border: 1.5px solid transparent;
+    background:
+      linear-gradient(135deg, rgb(6 182 212 / 0.09), rgb(37 99 235 / 0.09)) padding-box,
+      linear-gradient(var(--surface), var(--surface)) padding-box,
+      linear-gradient(135deg, #06b6d4, #2563eb 50%, #1e3a8a) border-box;
+    box-shadow: 0 14px 34px -16px rgb(37 99 235 / 0.5);
+  }
+  .feast-fill {
+    background: linear-gradient(135deg, #0891b2, #2563eb 55%, #1e3a8a);
+    color: #fff;
+  }
+  /* The Feasts tile: a brighter cyan outline that softly blinks (only its opacity moves). */
+  .feast-outline {
+    position: relative;
+  }
+  .feast-outline::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: var(--accent);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    pointer-events: none;
+  }
+  /* Today's meals: a warm coral edge so the eye lands there first. */
+  .today-card {
+    border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+    box-shadow: var(--lift), var(--sx) 16px 36px -22px color-mix(in srgb, var(--glow) 70%, transparent);
+  }
+  /* Soft lifts in light mode: white buttons, small pills marked .lift-soft, dish chips, the top bar. */
+  button.bg-surface,
+  a.bg-surface,
+  .lift-soft {
+    box-shadow: var(--soft);
+  }
+  .lift-sm {
+    box-shadow: var(--soft-sm);
+  }
+  .bar-shadow {
+    box-shadow: var(--soft-bar);
+  }
+  /* Horizontal strips that scroll without showing a scrollbar. */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Main-action buttons: a soft coral glow underneath and a thin light edge on top. Static (no repaint). */
+button.bg-accent,
+a.bg-accent {
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18), 0 8px 20px -10px color-mix(in srgb, var(--glow) 85%, transparent);
+}
+/* Booking a seat (Join now, Book a seat, Lucky?): orange, the special-meal colour. */
+button.book-btn {
+  background: var(--gold);
+  color: var(--surface);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.2), 0 8px 20px -10px color-mix(in srgb, var(--gold) 85%, transparent);
+}
+button.bg-accent:disabled {
+  box-shadow: none;
+}
+
+/* Date and time fields: the whole box opens the calendar or clock, with our own icon on the left. */
+input.input[type='date'],
+input.input[type='time'],
+input.input[type='datetime-local'] {
+  position: relative;
+}
+input.input[type='date']::-webkit-calendar-picker-indicator,
+input.input[type='time']::-webkit-calendar-picker-indicator,
+input.input[type='datetime-local']::-webkit-calendar-picker-indicator {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* No tiny up/down arrows on number boxes; typing is quicker. */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/* A "live" dot: a solid centre with a ring that softly breathes out. */
+.live-dot {
+  position: relative;
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: var(--dot, var(--glow));
+  flex-shrink: 0;
+}
+.live-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--dot, var(--glow));
+  opacity: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   A light, springy feel. Only transform and opacity (the phone's graphics chip does these for free; no
+   blur, no layout work), nothing that loops on big areas, and nothing that asks the server anything.
+   Switched off for "reduce motion".
+   --------------------------------------------------------------------------- */
+:root {
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Every button and link gives a little squish when pressed and springs back. */
+  @layer base {
+    button,
+    a {
+      transition: scale 280ms var(--spring), background-color 150ms, color 150ms, border-color 150ms, opacity 150ms;
+    }
+    button:not(:disabled):active,
+    a:active {
+      scale: 0.97;
+      transition-duration: 80ms;
+    }
+  }
+  /* Elements with their own transition get the same spring. */
+  .transition {
+    transition-timing-function: var(--spring);
+  }
+
+  /* Each screen's blocks rise into place, one just after another (first six only). */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+  }
+  main > * {
+    animation: rise 420ms var(--ease-out) backwards;
+  }
+  main > :nth-child(2) { animation-delay: 40ms; }
+  main > :nth-child(3) { animation-delay: 80ms; }
+  main > :nth-child(4) { animation-delay: 120ms; }
+  main > :nth-child(5) { animation-delay: 160ms; }
+  main > :nth-child(n + 6) { animation-delay: 200ms; }
+
+  @keyframes breathe {
+    0% { transform: scale(1); opacity: 0.55; }
+    80%, 100% { transform: scale(2.8); opacity: 0; }
+  }
+  .live-dot::after {
+    animation: breathe 2.2s var(--ease-out) infinite;
+  }
+  @keyframes outline-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+  }
+  .feast-outline::after {
+    animation: outline-blink 1.6s ease-in-out infinite;
+  }
+
+  @keyframes pop-in {
+    from { transform: translateY(6px) scale(0.94); }
+    to { transform: none; }
+  }
+  /* A dish, a count or a tab icon dropping in. Movement only, so it is visible even if the animation never runs. */
+  .pop-in {
+    animation: pop-in 320ms var(--spring);
+  }
+
+  @keyframes pop-open {
+    from { transform: translateY(16px) scale(0.92); }
+    to { transform: none; }
+  }
+  /* The + card opening in the middle of the screen. */
+  .pop-open {
+    animation: pop-open 340ms var(--spring);
+  }
+
+  @keyframes sheet-up {
+    from { transform: translateY(40px); }
+    to { transform: none; }
+  }
+  .sheet-up {
+    animation: sheet-up 300ms var(--spring);
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+  }
+  .fade-in {
+    animation: fade-in 200ms ease-out;
+  }
+}

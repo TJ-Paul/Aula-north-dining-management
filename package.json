@@ -1,0 +1,34 @@
+{
+  "name": "aula-dining-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Aula Dining: a smart mess dining app, running entirely in the browser with made-up data.",
+  "scripts": {
+    "pglite": "node scripts/copy-pglite.mjs",
+    "dev": "npm run pglite && next dev",
+    "build": "npm run pglite && next build",
+    "start": "npx serve out",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "0.5.15",
+    "lucide-react": "^1.67.0",
+    "next": "16.4.5",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.4",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "tailwindcss": "^4.3.4",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  }
+}
